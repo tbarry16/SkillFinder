@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const express = require('express');
-const  fs  = require('fs');
+// const  fs  = require('fs');
 const app = express();
 const path = require('path');
 
