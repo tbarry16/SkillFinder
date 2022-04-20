@@ -6,11 +6,12 @@ const employeeController = {}
 
 employeeController.findAllEmployees = async (req, res, next) => {
 
-    const employeesQuery = `SELECT * FROM employees`
+    const employeesQuery = `SELECT * FROM employees e
+                            LEFT JOIN departments d ON d.department_id = e.department
+                            LEFT JOIN roles r ON r.role_id = e.role`
 
     const queryResult = await db.query(employeesQuery);
-    console.log(queryResult)
-    res.locals.employees = queryResult.rows[0]
+    res.locals.employees = queryResult.rows
     return next()
 }
 

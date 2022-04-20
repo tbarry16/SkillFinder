@@ -40,6 +40,9 @@ app.use('/skill', skillRoute, (req, res) => {
 
 /* Manager Page */
 app.use('/manager', managerRoute, (req, res) => {
+    if (res.locals.employees) {
+      return res.status(200).json(res.locals.employees)    
+    }
     return res.status(200).send('Welcome to the Manager Page')
 })
 

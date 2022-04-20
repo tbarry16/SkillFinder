@@ -3,6 +3,14 @@ const db = require('../SQLDB');
 
 const roleController = {}
 
+roleController.findRoles = async (req, res, next) => {
+
+    const rolesQuery = 'SELECT * FROM roles ORDER BY role_id'
+    const queryResult = await db.query(rolesQuery)
+    res.locals.roles = queryResult.rows
+    return next()
+}
+
 
 roleController.addRole = async (req, res, next) => {
 

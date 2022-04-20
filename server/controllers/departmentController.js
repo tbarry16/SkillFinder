@@ -3,6 +3,15 @@ const db = require('../SQLDB');
 
 const departmentController = {}
 
+departmentController.findDepartments = async (req, res, next) => {
+    console.log('find')
+
+    const departmentsQuery = 'SELECT * FROM departments ORDER BY department_id'
+    const queryResult = await db.query(departmentsQuery)
+    res.locals.departments = queryResult.rows
+    return next()
+}
+
 departmentController.addDepartment = async (req, res, next) => {
 
     const { name, description } = req.body;

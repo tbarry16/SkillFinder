@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EmployeeFunctionality from './EmployeeFunctionality';
 
 
 class ManagerPage extends Component {
@@ -49,6 +50,8 @@ class ManagerPage extends Component {
                         <li>Delete a role</li>
                     </ul>
                 </div>
+                <EmployeeFunctionality />
+                
             </div>
         )
     }

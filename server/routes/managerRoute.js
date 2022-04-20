@@ -43,6 +43,9 @@ router.delete('/skill/:name', skillController.deleteSkill, (req, res, next) => {
 })
 
 /* Department Handling */
+router.get('/department', departmentController.findDepartments, (req, res) => {
+    return res.status(200).json(res.locals.departments)
+})
 
 router.post('/department', departmentController.addDepartment, (req, res, next) => {
     return next()
@@ -57,6 +60,9 @@ router.delete('/department/:name', departmentController.deleteDepartment, (req, 
 })
 
 /* Role Handling */
+router.get('/role', roleController.findRoles, (req, res) => {
+    return res.status(200).json(res.locals.roles)
+})
 
 router.post('/role', roleController.addRole, (req, res, next) => {
     return next()
