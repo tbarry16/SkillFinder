@@ -34,6 +34,10 @@ router.delete('/employee', employeeController.deleteEmployee, (req, res, next) =
 })
 
 /* Skill Handling without Employee first*/
+router.post('/skill', skillController.addSkills, (req, res, next) => {
+    return next();
+})
+
 router.delete('/skill/:name', skillController.deleteSkill, (req, res, next) => {
     return next();
 })

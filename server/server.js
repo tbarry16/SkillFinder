@@ -45,6 +45,9 @@ app.use('/manager', managerRoute, (req, res) => {
 
 /* Employee Page */
 app.use('/employee', employeeRoute, (req, res) => {
+    if (res.locals.foundEmployeesArray) {
+        return res.status(200).send(res.locals.foundEmployeesArray)    
+    }
     return res.status(200).send('Welcome to the Employee Page')
 })
 

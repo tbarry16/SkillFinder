@@ -1,0 +1,22 @@
+{
+    "first_name": "Kevin",
+    "last_name": "Barry",
+    "department": 5,
+    "role": 4,
+    "email": "kkbarry07@gmail.com",
+    "skills": [
+        "golfing",
+        "writing"
+    ],
+    "skill_descriptions": [
+        "tee time!",
+        "poetry"
+    ]
+}
+
+
+// Example skill only post request
+{
+    "skills": ["makeup", "dancing", "cooking", "cleaning", "singing", "coding"],
+    "skill_descriptions": ["beat that mug", "shake that groove thang", "order up", "tan limpito", "belt it, Whitney!", "Skill Finder Rocks!"]
+}

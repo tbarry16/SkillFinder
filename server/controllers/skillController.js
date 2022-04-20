@@ -14,7 +14,35 @@ skillController.findSkills = async (req, res, next) => {
     return next();
 }
 
+skillController.findEmployeesWithSkill = async (req, res, next) => {
+
+    const skill = req.params.skill
+
+    const skillExistsQuery = `SELECT * FROM skills WHERE skill_name = '${skill}'`
+    const skillExistsResult =await  db.query(skillExistsQuery)
+    if (skillExistsResult.rows.length === 0) {
+        return next({
+            log: 'Error in skillController.findEmployeesWithSkill',
+            message: {err: 'There is no such skill stored in the database. Please reference the stored skills table and try again!'}
+        })
+    }
+    const skill_id = skillExistsResult.rows[0].skill_id
+
+    const findEmployeesQuery = `SELECT e.first_name, e.last_name, e.email 
+                                FROM employees e
+                                INNER JOIN employee_with_skill ews ON ews.employee = e.employee_id
+                                WHERE ews.skill = ${skill_id}`
+
+                                // LEFT JOIN employee_with_skill ews ON ews.employee = e.employee_id
+
+    const foundEmployees = await db.query(findEmployeesQuery)
+
+    res.locals.foundEmployeesArray = foundEmployees.rows
+    return next()
+}
+
 skillController.addSkills = async (req, res, next) => {
+    console.log('in add skills')
     const { skills, skill_descriptions } = req.body
 
     if (skills) {
