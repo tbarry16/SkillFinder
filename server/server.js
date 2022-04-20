@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /* Direct Skill Requests */
 app.use('/skill', skillRoute, (req, res) => {
-    return res.status(200).send(res.locals.skills)
+    return res.status(200).json(res.locals.skills)
 })
 
 
@@ -46,7 +46,7 @@ app.use('/manager', managerRoute, (req, res) => {
 /* Employee Page */
 app.use('/employee', employeeRoute, (req, res) => {
     if (res.locals.foundEmployeesArray) {
-        return res.status(200).send(res.locals.foundEmployeesArray)    
+        return res.status(200).json(res.locals.foundEmployeesArray)    
     }
     return res.status(200).send('Welcome to the Employee Page')
 })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import EmployeePage from './EmployeePage';
-
+import ManagerPage from './ManagerPage'
 
 class App extends Component {
     constructor(props) {
@@ -27,15 +27,13 @@ class App extends Component {
 
     render() {
 
-        // if (this.state.isManager) {
-        //     console.log('YAY Manager')
-
-        //     return (
-        //         <div>
-        //             <ManagerPage />
-        //         </div>
-        //     )
-        // }
+        if (this.state.isManager) {
+            return (
+                <div>
+                    <ManagerPage />
+                </div>
+            )
+        }
         if (this.state.isEmployee) {
             return (
                 <div>
