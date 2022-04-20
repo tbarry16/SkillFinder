@@ -3,6 +3,17 @@ const db = require('../SQLDB');
 
 const skillController = {}
 
+skillController.findSkills = async (req, res, next) => {
+
+    const skillsQuery = 'SELECT skill_name FROM skills'
+    const queryResult = await db.query(skillsQuery)
+    res.locals.skills = queryResult.rows.reduce((acc, el) => {
+        acc.push(el['skill_name'])
+        return acc;
+    }, [])
+    return next();
+}
+
 skillController.addSkills = async (req, res, next) => {
     const { skills, skill_descriptions } = req.body
 
@@ -49,7 +60,12 @@ skillController.linkEmployeeWithSkills = async (req, res, next) => {
 }
 
 skillController.deleteSkill = async (req, res, next) => {
-    const skill = req.params.skill
+    const skill = req.params.name;
+
+    const deleteQuery = `DELETE FROM skills WHERE skill_name = '${skill}'`
+    await db.query(deleteQuery);
+    
+    return next()
 }
 
 

@@ -7,7 +7,10 @@ const path = require('path');
 
 const PORT = 3000;
 
+/* Required Routers */
 const managerRoute = require('./routes/managerRoute')
+const skillRoute = require('./routes/skillRoute')
+
 
 
 app.use(express.json());
@@ -19,13 +22,16 @@ app.get('/', (req, res) => {
     return res.status(200).sendFile(path.resolve(__dirname,'../build/index.html'))
 });
 
+/* Direct Skill Requests */
+app.use('/skill', skillRoute, (req, res) => {
+    return res.status(200).send(res.locals.skills)
+})
+
 
 /* Manager page */
 app.use('/manager', managerRoute, (req, res) => {
     return res.status(200).send('Welcome to the Manager Page')
 })
-
-
 
 
 // **** ERROR HANDLERS **** //

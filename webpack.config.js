@@ -38,8 +38,8 @@ module.exports = {
     compress: true,
     port: 8080,
     proxy: { //changes domain request comes from
-        '/api': 'http://localhost:3000',
-        '/manager': 'http://localhost:3000'
+        '/manager': 'http://localhost:3000',
+        '/skill': 'http://localhost:3000'
     }
   }
 }

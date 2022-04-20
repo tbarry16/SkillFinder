@@ -3,6 +3,8 @@ const express = require('express');
 const departmentController = require('../controllers/departmentController');
 const router = express.Router();
 
+const db = require('../SQLDB')
+
 const employeeController = require('../controllers/employeeController');
 const roleController = require('../controllers/roleController');
 const skillController = require('../controllers/skillController')
@@ -32,7 +34,7 @@ router.delete('/employee', employeeController.deleteEmployee, (req, res, next) =
 })
 
 /* Skill Handling without Employee first*/
-router.get('/skill', (req, res, next) => {
+router.delete('/skill/:name', skillController.deleteSkill, (req, res, next) => {
     return next();
 })
 
@@ -64,7 +66,20 @@ router.delete('/role/:name', roleController.deleteRole, (req, res, next) => {
     return next();
 })
 
+/* Reset Database Employees, Skills and Association Table in addition to Restarting the SERIAL for PRIMARY KEYS */
+router.delete('/deleteAll', async (req, res, next) => {
+    // ALTER SEQUENCE skills_skill_id_seq RESTART WITH 1
 
+    const deleteQueries = ['employees', 'skills', 'employee_with_skill']
+    const resetSeqQueries = ['employees_employee_id_seq', 'skills_skill_id_seq', 'employee_with_skill_primary_id_seq']
+
+    for (let i = 0; i < deleteQueries.length; i++) {
+        await db.query(`DELETE FROM ${deleteQueries[i]}`);
+        await db.query(`ALTER SEQUENCE ${resetSeqQueries[i]} RESTART WITH 1`)
+    }
+
+    return res.status(200).send('Database Reset excluding departments and roles!')
+})
 
 
 
