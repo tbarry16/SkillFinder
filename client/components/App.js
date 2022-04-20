@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 
 
 
-const App = () => {
+class App extends Component {
 
 
-    return (
-        <div>
-
+    render() {
+        return (
+        <div className='main-container'>
+            <p>Hello World!</p>
         </div>
-    )
+        )
+    }
 }
 
 export default App;
