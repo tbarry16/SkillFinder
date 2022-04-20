@@ -10,7 +10,8 @@ class EmployeeFunctionality extends Component {
             employeeFunctionality: null,
             departmentsList: {},
             rolesList: {},
-            newEmployee: {}
+            // newEmployee: {},
+            skillsNeeded: null
         }
         this.handleClick = this.handleClick.bind(this);
     }
@@ -39,6 +40,13 @@ class EmployeeFunctionality extends Component {
         })
 
     }
+    componentDidUpdate() {
+        fetch('/manager/employee')
+          .then(response => response.json())
+          .then(data => {
+              this.setState({employeesList: data})
+          })
+    }
 
     handleClick(event) {
 
@@ -58,19 +66,62 @@ class EmployeeFunctionality extends Component {
             let role = document.getElementById("roleText").value
             role = this.state.rolesList[role]
 
-            console.log(firstName, lastName, email, department, role)
+            let skillArray = [
+                document.getElementById('firstSkill').value,
+                document.getElementById('secondSkill').value,
+                document.getElementById('thirdSkill').value
+            ]
 
+            let skillDescriptionsArray = [
+                document.getElementById('firstSkillDesc').value,
+                document.getElementById('secondSkillDesc').value,
+                document.getElementById('thirdSkillDesc').value
+            ]
+
+
+            for (let i = 0; i < skillArray.length; i++) {
+                if (skillArray[i] === 'Skill Name') {
+                    skillArray = skillArray.slice(0, i)
+                    skillDescriptionsArray = skillDescriptionsArray.slice(0, i)
+                }
+            }
+
+            const empObj = {
+                first_name: firstName,
+                lastName: lastName,
+                department: department,
+                role: role,
+                email: email,
+                skills: skillArray,
+                skill_descriptions: skillDescriptionsArray
+            }
+
+            fetch('/manager/employee', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(empObj)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            return this.setState({
+                employeeFunctionality: null,
+                skillsNeeded: null,
+            })
         }
 
-        this.setState({
+        return this.setState({
             employeeFunctionality: event.target.id
         })
-        return;
+        
     }
 
     render() {
 
-        if (this.state.employeeFunctionality === 'view') {  // view employees button
+        if (this.state.employeeFunctionality === 'view') {  // view employees button clicked and render employees list
             const tableRows = []
             this.state.employeesList.map(i => {
                 tableRows.push(
@@ -107,53 +158,55 @@ class EmployeeFunctionality extends Component {
                 <div>
                     <h3>Please fill out the form below  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
                     <table>
-                        <tr>
-                            <td>
-                                <label><strong>First Name: </strong></label>
-                            </td>
-                            <td>
-                                <input id='firstNameText' type='text'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label><strong>Last Name: </strong></label>
-                            </td>
-                            <td>
-                                <input id='lastNameText' type='text'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label><strong>Department: </strong></label>
-                            </td>
-                            <td>
-                                <input id='departmentText' type='text'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label><strong>Role: </strong></label>
-                            </td>
-                            <td>
-                                <input id='roleText' type='text'></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label><strong>Email: </strong></label>
-                            </td>
-                            <td>
-                                <input id='emailText' type='text'></input>
-                            </td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td><label><strong>First Name: </strong></label></td>
+                                <td><input id='firstNameText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Last Name: </strong></label></td>
+                                <td><input id='lastNameText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Department: </strong></label></td>
+                                <td><input id='departmentText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Role: </strong></label></td>
+                                <td><input id='roleText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Email: </strong></label></td>
+                                <td><input id='emailText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Skill 1: </strong></label></td>
+                                <td><input defaultValue="Skill Name" id="firstSkill" type='text'></input></td>
+                                <td><input defaultValue="Description" id="firstSkillDesc"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Skill 2: </strong></label></td>
+                                <td><input defaultValue="Skill Name" id="secondSkill" type='text'></input></td>
+                                <td><input defaultValue="Description" id="secondSkillDesc"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Skill 3: </strong></label></td>
+                                <td><input defaultValue="Skill Name" id="thirdSkill" type='text'></input></td>
+                                <td><input defaultValue="Description" id="thirdSkillDesc"></input></td>
+                            </tr>
+                        </tbody>
                     </table>
                     <button id="submitEmplInfo" onClick={this.handleClick}>Submit</button>
                 </div>
             )
         }
 
-        return (
+        return ( // initial render before any buttons clicked
             <div className="employeeFunctionalityContainer">
                 <h3 className="functionalityHeader">Employee Functionality</h3>
                 <h5 className="functionalityHeader">What would you like to do?</h5>

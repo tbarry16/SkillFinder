@@ -11,7 +11,6 @@ class ManagerPage extends Component {
     } 
 
     componentDidMount() {
-
         fetch('/skill')
           .then(response => response.json())
           .then(data => {
