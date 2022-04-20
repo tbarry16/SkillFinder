@@ -67,7 +67,7 @@ router.delete('/role/:name', roleController.deleteRole, (req, res, next) => {
 })
 
 /* Reset Database Employees, Skills and Association Table in addition to Restarting the SERIAL for PRIMARY KEYS */
-router.delete('/deleteAll', async (req, res, next) => {
+router.delete('/deleteAll', async (req, res) => {
     // ALTER SEQUENCE skills_skill_id_seq RESTART WITH 1
 
     const deleteQueries = ['employees', 'skills', 'employee_with_skill']

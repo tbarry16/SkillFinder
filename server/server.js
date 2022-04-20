@@ -10,6 +10,7 @@ const PORT = 3000;
 /* Required Routers */
 const managerRoute = require('./routes/managerRoute')
 const skillRoute = require('./routes/skillRoute')
+const employeeRoute = require('./routes/employeeRoute')
 
 
 
@@ -28,11 +29,15 @@ app.use('/skill', skillRoute, (req, res) => {
 })
 
 
-/* Manager page */
+/* Manager Page */
 app.use('/manager', managerRoute, (req, res) => {
     return res.status(200).send('Welcome to the Manager Page')
 })
 
+/* Employee Page */
+app.use('/employee', employeeRoute, (req, res) => {
+    return res.status(200).send('Welcome to the Employee Page')
+})
 
 // **** ERROR HANDLERS **** //
 

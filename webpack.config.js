@@ -39,7 +39,8 @@ module.exports = {
     port: 8080,
     proxy: { //changes domain request comes from
         '/manager': 'http://localhost:3000',
-        '/skill': 'http://localhost:3000'
+        '/skill': 'http://localhost:3000',
+        '/employee': 'http://localhost:3000'
     }
   }
 }
