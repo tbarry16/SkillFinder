@@ -10,6 +10,10 @@ h1 {
     justify-content: center;
 }
 
+h4 {
+    margin: 0;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -41,6 +45,10 @@ h1 {
 
 .managerFunctionalityLists {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
 }
 
 
@@ -78,3 +86,18 @@ h1 {
     flex-direction: column;
     align-items: center;
 }
+
+.funcListItem {
+    margin-left: 25px;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+// #logInButton {
+//     align-items: flex-end;
+// }

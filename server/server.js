@@ -11,6 +11,8 @@ const PORT = 3000;
 const managerRoute = require('./routes/managerRoute')
 const skillRoute = require('./routes/skillRoute')
 const employeeRoute = require('./routes/employeeRoute')
+const signupRoute = require('./routes/signupRoute');
+const loginRoute = require('./routes/loginRoute')
 
 
 
@@ -31,6 +33,16 @@ if (process.env.NODE_ENV === 'production') {
       return res.status(200).sendFile(path.join(__dirname, '../index.html'));
     });
   }
+
+/* Sign-up Requests */
+app.use('/signup', signupRoute, (req,res) => {
+  return res.status(200).json(res.locals.role)
+})
+
+/* Login Requests */
+app.use('/login', loginRoute, (req,res) => {
+  return res.status(200).json(res.locals)
+})
 
 /* Direct Skill Requests */
 app.use('/skill', skillRoute, (req, res) => {

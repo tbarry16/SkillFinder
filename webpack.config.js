@@ -40,7 +40,9 @@ module.exports = {
     proxy: { //changes domain request comes from
         '/manager': 'http://localhost:3000',
         '/skill': 'http://localhost:3000',
-        '/employee': 'http://localhost:3000'
+        '/employee': 'http://localhost:3000',
+        '/signup': 'http://localhost:3000',
+        '/login': 'http://localhost:3000'
     }
   }
 }

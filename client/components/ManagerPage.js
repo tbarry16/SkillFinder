@@ -29,25 +29,27 @@ class ManagerPage extends Component {
                 <p>This page is designed to allow managers to interract directly with the database.</p>
                 <p>Some current functionality includes:</p>
                 <div className='managerFunctionalityLists'>
-                    <ul><h4>Employee Data:</h4>
-                        <li>Retrieve employee list</li>
-                        <li>Add a new employee</li>
-                        <li>Update employee information</li>
-                        <li>Remove employee from database</li>
+                    <ul className='functionalityList'><h4>Employee Data:</h4>
+                        <li className='funcListItem'>Retrieve employee list</li>
+                        <li className='funcListItem'>Add a new employee</li>
+                        <li className='funcListItem'>Update employee information</li>
+                        <li className='funcListItem'>Remove employee from database</li>
                     </ul>
-                    <ul><h4>Skill Data:</h4>
-                        <li>Add new skills to database</li>
-                        <li>Delete skills no longer pertinent</li>
+                    {/* <ul className='functionalityList'><h4>Skill Data:</h4>
+                        <li className='funcListItem'>Add new skills to database</li>
+                        <li className='funcListItem'>Delete skills no longer pertinent</li>
+                    </ul> */}
+                    <ul className='functionalityList'><h4>Department Data:</h4>
+                        <li className='funcListItem'>Retrieve departments list</li>
+                        <li className='funcListItem'>Add a new department</li>
+                        <li className='funcListItem'>Update an existing department</li>
+                        <li className='funcListItem'>Delete a department</li>
                     </ul>
-                    <ul><h4>Department Data:</h4>
-                        <li>Add a new department</li>
-                        <li>Update an existing department</li>
-                        <li>Delete a department</li>
-                    </ul>
-                    <ul><h4>Role Data:</h4>
-                        <li>Add a new role</li>
-                        <li>Update an existing role</li>
-                        <li>Delete a role</li>
+                    <ul className='functionalityList'><h4>Role Data:</h4>
+                        <li className='funcListItem'>Retrieve roles list</li>
+                        <li className='funcListItem'>Add a new role</li>
+                        <li className='funcListItem'>Update an existing role</li>
+                        <li className='funcListItem'>Delete a role</li>
                     </ul>
                 </div>
                 <EmployeeFunctionality />
