@@ -8,12 +8,11 @@ const loginController = {};
 loginController.findUser = async (req, res, next) => {
 
     const { email, password } = req.body
+    console.log(email, password)
 
     const findHashPassQuery = `SELECT passhash FROM employees WHERE email = '${email}'`
     const queryRes = await db.query(findHashPassQuery)
     const hashPass = queryRes.rows[0].passhash;
-
-    const myObj = {};
 
     bcrypt.compare(password, hashPass, (err, result) => {
         if (err) {
@@ -36,7 +35,7 @@ loginController.findUserRole = async (req, res, next) => {
         const queryRes = await db.query(findUserRole)
         res.locals.role = queryRes.rows[0].role;
     }
-    
+
     return next()
 }
 

@@ -10,7 +10,8 @@ class App extends Component {
             isEmployee: false,
             isLogin: false,
             isSignup: false,
-            userMessage: null
+            userMessage: null,
+            isUser: null
         }
         this.handleClick = this.handleClick.bind(this)
     }
@@ -32,10 +33,34 @@ class App extends Component {
             const password = document.getElementById('password').value
 
             if (email !== 'email' && password !== 'password') {
+                console.log(email, password)
                 fetch('/login', {
                     method: 'POST',
-                    
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
                 })
+                  .then(resp => resp.json())
+                  .then(data => {
+                      if (data.role <= 2) {
+                        return this.setState({
+                            isUser: data.isUser,
+                            isManager: true,
+                            isLogin: false
+                        })
+                      } else {
+                        return this.setState({
+                            isUser: data.isUser,
+                            isEmployee: true,
+                            isLogin: false
+                        })
+                      }
+                      
+                  })
             } else {
                 return this.setState({
                     userMessage: 'Email and Password Required'
@@ -43,11 +68,123 @@ class App extends Component {
             }
 
         }
+
+        if (event.target.id === 'signUpButton') {
+            const email = document.getElementById('username').value;
+            const password1 = document.getElementById('password1').value;
+            const password2 = document.getElementById('password2').value;
+
+            if (password1 !== password2) {
+                return this.setState({
+                    userMessage: 'Passwords must match!'
+                })
+            }
+
+            if (email !== 'email' && password1 !== "password") {
+                fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password1
+                    })
+                })
+                  .then(resp => resp.json())
+                  .then(data => {
+                      if (data <= 2) {
+                          return this.setState({
+                              isSignup: false,
+                              isUser: true,
+                              isManager: true
+                          })
+                      } else if (data > 2) {
+                          return this.setState({
+                              isSignup: false,
+                              isUser: true,
+                              isEmployee: true
+                          })
+                      }
+
+                      return this.setState({
+                          userMessage: 'This email was not found. Ask your manager to add you to the system.'
+                      })
+                  })
+            }
+        }
     }
 
     render() {
 
-        if(this.state.isLogin) {
+        if(this.state.isLogin) { //if login button clicked, render login page
+            return (
+                <div className='loginContainer'>
+                    <div>
+                        <h3>Fill out the form below to log in!</h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label><strong>Username:</strong></label></td>
+                                    <td><input id='username' defaultValue='email' type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <td><label><strong>Password:</strong></label></td>
+                                    <td><input id='password' defaultValue='password' type="password"></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button id='logInButton' onClick={this.handleClick}>Submit</button>
+                        {this.state.userMessage}
+                    </div>
+                </div>
+            )
+        }
+
+        if(this.state.isSignup) {
+            return (
+                <div className='loginContainer'>
+                    <div>
+                        <h3>Fill out the form below to sign up!</h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><label><strong>Username:</strong></label></td>
+                                    <td><input id='username' defaultValue='email' type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <td><label><strong>Password:</strong></label></td>
+                                    <td><input id='password1' defaultValue='password' type="password"></input></td>
+                                </tr>
+                                <tr>
+                                    <td><label><strong>Confirm Password:</strong></label></td>
+                                    <td><input id='password2' defaultValue='password' type="password"></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button id='signUpButton' onClick={this.handleClick}>Submit</button>
+                        {this.state.userMessage}
+                    </div>
+                </div>
+            )
+        }
+
+        if (this.state.isUser === true) {  //if after login a user with email and password is found
+            if (this.state.isManager) { // check their role and render manager or employee page as appropriate
+                return (
+                    <div>
+                        <ManagerPage />
+                    </div>
+                )
+            }
+            if (this.state.isEmployee) {
+                return (
+                    <div>
+                        <EmployeePage />
+                    </div>
+                )
+            }
+        } else if (this.state.isUser === false) { //if failed login attempt render error message
             return (
                 <div className='loginContainer'>
                     <div>
@@ -65,31 +202,8 @@ class App extends Component {
                             </tbody>
                         </table>
                         <button id='logInButton' onClick={this.handleClick}>Submit</button>
-                        {this.state.userMessage}
+                        <p>Invalid username and/or password!</p>
                     </div>
-                </div>
-            )
-        }
-
-        if(this.state.isSignup) {
-            return (
-                <div>
-                    <p>Signup Page!</p>
-                </div>
-            )
-        }
-
-        if (this.state.isManager) {
-            return (
-                <div>
-                    <ManagerPage />
-                </div>
-            )
-        }
-        if (this.state.isEmployee) {
-            return (
-                <div>
-                    <EmployeePage />
                 </div>
             )
         }

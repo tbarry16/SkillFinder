@@ -15,13 +15,13 @@ signupController.addUser = async (req, res, next) => {
 
         const addPasswordQuery = `UPDATE employees SET passhash = '${hash}' WHERE email = '${email}'`
         await db.query(addPasswordQuery)
-        return;
+        const findUserRole = `SELECT role FROM employees WHERE email = '${email}'`
+        const queryRes = await db.query(findUserRole)
+        res.locals.role = queryRes.rows[0].role
+        return next()
     })
 
-    const findUserRole = `SELECT role FROM employees WHERE email = '${email}'`
-    const queryRes = await db.query(findUserRole)
-    res.locals.role = queryRes.rows[0].role
-    return next()
+    
 }
 
 
