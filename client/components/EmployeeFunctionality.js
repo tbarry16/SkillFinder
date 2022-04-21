@@ -82,7 +82,7 @@ class EmployeeFunctionality extends Component {
 
             const empObj = {
                 first_name: firstName,
-                last_Name: lastName,
+                last_name: lastName,
                 department: department,
                 role: role,
                 email: email,

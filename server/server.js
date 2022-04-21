@@ -48,7 +48,7 @@ app.use('/login', loginRoute, (req,res) => {
 
 /* Direct Skill Requests */
 app.use('/skill', skillRoute, (req, res) => {
-    return res.status(200).json(res.locals.skills)
+    return res.status(200).json(res.locals)
 })
 
 

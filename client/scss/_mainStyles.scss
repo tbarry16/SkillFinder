@@ -10,7 +10,7 @@ h1 {
     justify-content: center;
 }
 
-h4 {
+h2, h3, h4 {
     margin: 0;
 }
 
@@ -96,6 +96,11 @@ h4 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#skillList {
+    text-align: left;
+    margin-top: 0;
 }
 
 // #logInButton {

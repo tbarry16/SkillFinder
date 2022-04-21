@@ -5,10 +5,14 @@ const skillController = {}
 
 skillController.findSkills = async (req, res, next) => {
 
-    const skillsQuery = 'SELECT skill_name FROM skills'
+    const skillsQuery = 'SELECT skill_name, description FROM skills'
     const queryResult = await db.query(skillsQuery)
     res.locals.skills = queryResult.rows.reduce((acc, el) => {
         acc.push(el['skill_name'])
+        return acc;
+    }, [])
+    res.locals.description = queryResult.rows.reduce((acc, el) => {
+        acc.push(el['description'])
         return acc;
     }, [])
     return next();

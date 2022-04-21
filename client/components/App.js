@@ -113,6 +113,24 @@ class App extends Component {
                   })
             }
         }
+
+        if (event.target.id === 'viewSwitchEmployee') {
+            return this.setState({
+                isEmployee: true
+            })
+        }
+
+        if (event.target.id === 'viewSwitchManager') {
+            if (this.state.isManager) {
+                return this.setState({
+                    isEmployee: false
+                })
+            } else {
+                return this.setState({
+                    userMessage: 'You are not a manager!'
+                })
+            }
+        }
     }
 
     render() {
@@ -170,9 +188,10 @@ class App extends Component {
         }
 
         if (this.state.isUser === true) {  //if after login a user with email and password is found
-            if (this.state.isManager) { // check their role and render manager or employee page as appropriate
+            if (this.state.isManager === true && this.state.isEmployee === false) { // check their role and render manager or employee page as appropriate
                 return (
                     <div>
+                        <button id="viewSwitchEmployee" onClick={this.handleClick}>View Employee Page</button>
                         <ManagerPage />
                     </div>
                 )
@@ -180,6 +199,8 @@ class App extends Component {
             if (this.state.isEmployee) {
                 return (
                     <div>
+                        <button id="viewSwitchManager" onClick={this.handleClick}>View Manager Page</button>
+                        {this.state.userMessage}
                         <EmployeePage />
                     </div>
                 )
