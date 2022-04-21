@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EmployeeFunctionality from './EmployeeFunctionality';
+import DepartmentFunctionality from './DepartmentFunctionality'
 
 
 class ManagerPage extends Component {
@@ -28,28 +29,32 @@ class ManagerPage extends Component {
                 <p>This page is designed to allow managers to interract directly with the database.</p>
                 <p>Some current functionality includes:</p>
                 <div className='managerFunctionalityLists'>
-                    <ul><h4>Employee Functionality:</h4>
+                    <ul><h4>Employee Data:</h4>
                         <li>Retrieve employee list</li>
                         <li>Add a new employee</li>
                         <li>Update employee information</li>
                         <li>Remove employee from database</li>
                     </ul>
-                    <ul><h4>Skill Functionality:</h4>
+                    <ul><h4>Skill Data:</h4>
                         <li>Add new skills to database</li>
                         <li>Delete skills no longer pertinent</li>
                     </ul>
-                    <ul><h4>Department Functionality:</h4>
+                    <ul><h4>Department Data:</h4>
                         <li>Add a new department</li>
                         <li>Update an existing department</li>
                         <li>Delete a department</li>
                     </ul>
-                    <ul><h4>Employee Role Functionality:</h4>
+                    <ul><h4>Role Data:</h4>
                         <li>Add a new role</li>
                         <li>Update an existing role</li>
                         <li>Delete a role</li>
                     </ul>
                 </div>
                 <EmployeeFunctionality />
+                {/* <SkillFunctionality /> */}
+                <DepartmentFunctionality />
+                {/* <RoleFunctionality /> */}
+
                 
             </div>
         )

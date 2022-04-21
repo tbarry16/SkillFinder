@@ -40,13 +40,6 @@ class EmployeeFunctionality extends Component {
         })
 
     }
-    componentDidUpdate() {
-        fetch('/manager/employee')
-          .then(response => response.json())
-          .then(data => {
-              this.setState({employeesList: data})
-          })
-    }
 
     handleClick(event) {
 
@@ -103,14 +96,17 @@ class EmployeeFunctionality extends Component {
                 },
                 body: JSON.stringify(empObj)
             })
-            .catch(err => {
-                console.log(err)
+            .then(resp => {
+                fetch('/manager/employee')
+                .then(response => response.json())
+                .then(data => {
+                this.setState({
+                    employeeFunctionality: null,
+                    employeesList: data
+                })
+              })
             })
-
-            return this.setState({
-                employeeFunctionality: null,
-                skillsNeeded: null,
-            })
+            return;
         }
 
         return this.setState({
@@ -137,23 +133,25 @@ class EmployeeFunctionality extends Component {
 
             return (
                 <div className="employeeFunctionalityContainer">
-                    <h3 className="functionalityHeader">Employee List  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
+                    <h3 className="functionalityHeader">Employees List  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
                     
-                    <table className="employeeTable">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Department</th>
-                            <th>Role</th>
-                            <th>Email</th>
-                        </tr>
-                        {tableRows}
+                    <table className="displayTable">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                            </tr>
+                            {tableRows}
+                        </tbody>
                     </table>
                 </div>
                     )
         }
 
-        if (this.state.employeeFunctionality === 'add') {
+        if (this.state.employeeFunctionality === 'add') {  // render adding employee form
             return (
                 <div>
                     <h3>Please fill out the form below  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
@@ -162,12 +160,12 @@ class EmployeeFunctionality extends Component {
                             <tr>
                                 <td><label><strong>First Name: </strong></label></td>
                                 <td><input id='firstNameText' type='text'></input></td>
-                                <td></td>
+                                <td>*Required</td>
                             </tr>
                             <tr>
                                 <td><label><strong>Last Name: </strong></label></td>
                                 <td><input id='lastNameText' type='text'></input></td>
-                                <td></td>
+                                <td>*Required</td>
                             </tr>
                             <tr>
                                 <td><label><strong>Department: </strong></label></td>
@@ -182,7 +180,7 @@ class EmployeeFunctionality extends Component {
                             <tr>
                                 <td><label><strong>Email: </strong></label></td>
                                 <td><input id='emailText' type='text'></input></td>
-                                <td></td>
+                                <td>*Required</td>
                             </tr>
                             <tr>
                                 <td><label><strong>Skill 1: </strong></label></td>
