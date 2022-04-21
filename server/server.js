@@ -4,6 +4,7 @@ const express = require('express');
 // const  fs  = require('fs');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser')
 
 const PORT = 3000;
 
@@ -18,6 +19,7 @@ const loginRoute = require('./routes/loginRoute')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 
 /* Main page */

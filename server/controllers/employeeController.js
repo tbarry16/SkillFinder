@@ -8,7 +8,8 @@ employeeController.findAllEmployees = async (req, res, next) => {
 
     const employeesQuery = `SELECT * FROM employees e
                             LEFT JOIN departments d ON d.department_id = e.department
-                            LEFT JOIN roles r ON r.role_id = e.role`
+                            LEFT JOIN roles r ON r.role_id = e.role
+                            ORDER BY e.employee_id`
 
     const queryResult = await db.query(employeesQuery);
     res.locals.employees = queryResult.rows
@@ -33,27 +34,27 @@ employeeController.createEmployee = async (req, res, next) => {
     }
 }
 
-employeeController.updateEmployee = (req, res, next) => {
+employeeController.updateEmployee = async (req, res, next) => {
 
     const updateObj = {...req.body}
-    // console.log(updateObj)
-
-    let updateQuery = `UPDATE employees (`
-    let valuesQuery = `VALUES (`
 
     for (let key in updateObj) {
-        updateQuery +=  key + ', '
-        valuesQuery += updateObj[key] + ', '
+        if (key !== 'email') {
+            const updateQuery = `UPDATE employees SET ${key} = '${updateObj[key]}' WHERE email = '${updateObj['email']}'`
+            await db.query(updateQuery)   
+        }
     }
-    updateQuery = updateQuery.substring(0, updateQuery.length - 2) + ') '
-    valuesQuery = valuesQuery.substring(0, valuesQuery.length - 2) + ')'
-    const finalQuery = updateQuery + valuesQuery
-    console.log(finalQuery)
-
     return next()
 }
 
 employeeController.deleteEmployee = (req, res, next) => {
+
+    const {id} = req.params
+
+    const deleteEmployeeQuery = `DELETE FROM employees WHERE employee_id = ${id}`
+    // console.log(deleteEmployeeQuery)
+    db.query(deleteEmployeeQuery)
+
     return next()
 }
 

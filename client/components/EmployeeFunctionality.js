@@ -52,9 +52,9 @@ class EmployeeFunctionality extends Component {
         }
 
         if (event.target.id === "submitEmplInfo") {
-            const firstName = document.getElementById("firstNameText").value
-            const lastName = document.getElementById("lastNameText").value
-            const email = document.getElementById('emailText').value
+            const firstName = document.getElementById("firstNameText").value;
+            const lastName = document.getElementById("lastNameText").value;
+            const email = document.getElementById('emailText').value;
             let department = document.getElementById("departmentText").value
             department = this.state.departmentsList[department]
             let role = document.getElementById("roleText").value
@@ -82,7 +82,7 @@ class EmployeeFunctionality extends Component {
 
             const empObj = {
                 first_name: firstName,
-                lastName: lastName,
+                last_Name: lastName,
                 department: department,
                 role: role,
                 email: email,
@@ -108,6 +108,74 @@ class EmployeeFunctionality extends Component {
               })
             })
             return;
+        }
+
+        if (event.target.id === 'deleteEmployeeButton') {
+            const employee_id = document.getElementById('employeeIdInput').value
+
+            fetch(`/manager/employee/${employee_id}`, {
+                method: 'DELETE'
+            })
+              .then(() => {
+                fetch('/manager/employee')
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        employeesList: data,
+                        employeeFunctionality: null
+                    })
+                })
+              })
+
+            return;
+        }
+
+        if (event.target.id === "submitUpdateEmplInfo") {
+            const email = document.getElementById('emailText').value;
+            const first_name = document.getElementById('firstNameText').value;
+            const last_name = document.getElementById('lastNameText').value;
+            const department = document.getElementById('departmentText').value;
+            const role = document.getElementById('roleText').value
+
+            const bodyObj = {}
+
+            if (email !== 'email') {
+                bodyObj.email = email
+            }
+
+            if (first_name !== 'name') {
+                bodyObj.first_name = first_name
+            }
+
+            if (last_name !== 'name') {
+                bodyObj.last_name = last_name
+            }
+
+            if (department !== 'department') {
+                bodyObj.department = this.state.departmentsList[department]
+            }
+
+            if (role !== 'role') {
+                bodyObj.role = this.state.rolesList[role]
+            }
+
+            fetch('/manager/employee', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyObj)
+            })
+              .then(()=> {
+                fetch('/manager/employee')
+                .then(response => response.json())
+                .then(data => {
+                    return this.setState({
+                        employeesList: data,
+                        employeeFunctionality: null
+                    })
+                })
+              })
         }
 
         return this.setState({
@@ -201,6 +269,59 @@ class EmployeeFunctionality extends Component {
                         </tbody>
                     </table>
                     <button id="submitEmplInfo" onClick={this.handleClick}>Submit</button>
+                </div>
+            )
+        }
+
+        if (this.state.employeeFunctionality === 'update') {
+            return (
+                <div>
+                    <h3>Please fill out the form below  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><label><strong>Email: </strong></label></td>
+                                <td><input defaultValue='email' id='emailText' type='text'></input></td>
+                                <td>*Must match email in database</td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Updated First Name: </strong></label></td>
+                                <td><input defaultValue='name' id='firstNameText' type='text'></input></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Updated Last Name: </strong></label></td>
+                                <td><input defaultValue='name' id='lastNameText' type='text'></input></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Updated Department: </strong></label></td>
+                                <td><input defaultValue='department' id='departmentText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label><strong>Updated Role: </strong></label></td>
+                                <td><input defaultValue='role' id='roleText' type='text'></input></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="submitUpdateEmplInfo" onClick={this.handleClick}>Submit</button>
+                </div>
+            )
+        }
+
+        if (this.state.employeeFunctionality === 'delete') {
+            return (
+                <div>
+                    <h3>Please fill out the form below  <button id='reset' onClick={this.handleClick}>Go Back</button></h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><label><strong>Employee ID: </strong></label></td>
+                                <td><input id="employeeIdInput" type='text' defaultValue='id'></input></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="deleteEmployeeButton" onClick={this.handleClick}>Submit</button>
                 </div>
             )
         }

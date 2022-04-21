@@ -29,7 +29,7 @@ router.patch('/employee', employeeController.updateEmployee, (req, res, next) =>
     return next()
 })
 
-router.delete('/employee', employeeController.deleteEmployee, (req, res, next) => {
+router.delete('/employee/:id', employeeController.deleteEmployee, (req, res, next) => {
     return next()
 })
 
